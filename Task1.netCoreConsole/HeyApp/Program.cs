@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using MessageFormer;
 
 namespace HeyApp;
 internal class Program
@@ -6,7 +7,7 @@ internal class Program
     static void Main(string[] args)
     {
         Parser.Default.ParseArguments<Options>(args)
-            .WithParsed(o => Console.WriteLine($"Hello {o.UserName}"));
+            .WithParsed(o => Console.WriteLine(new StringMessage().FormMessage(o.UserName)));
     }
 }
 
