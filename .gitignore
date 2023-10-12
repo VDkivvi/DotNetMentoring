@@ -1,0 +1,17 @@
+target/
+lib/
+log/
+[Bb]in/
+obj/
+packages/
+.vs/
+*.tmp
+*.TMP
+*.user
+UpgradeLog*.htm
+#config.xml
+#users.xml
+*.orig
+*.cache
+*.feature.cs
+*.bak

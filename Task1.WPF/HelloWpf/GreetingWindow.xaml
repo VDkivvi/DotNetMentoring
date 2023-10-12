@@ -1,0 +1,14 @@
+﻿<Window x:Class="HelloWpf.GreetingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HelloWpf"
+        mc:Ignorable="d"
+        Title="GreetingWindow" Height="100" Width="591">
+    <Grid Height="76" VerticalAlignment="Top">
+        <TextBox x:Name="GreetingText" HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="380" Height="26" Background="White" FontFamily="Comic Sans MS" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="469,0,0,0" VerticalAlignment="Center" Height="26" Width="61" Click="Button_Click"/>
+
+    </Grid>
+</Window>

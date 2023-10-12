@@ -1,0 +1,19 @@
+﻿<Window x:Class="HelloWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HelloWpf"
+        mc:Ignorable="d"
+        Title="Hello WPF app" Height="189" Width="741" Background="#FFEBF9FF">
+    <Grid Margin="0,0,0,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="37*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="UserNameTextBox" HorizontalAlignment="Left" Margin="2,56,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="355" Height="22" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+        <Button x:Name="ShowGreetingButton" Content="Show Greeting" HorizontalAlignment="Left" Margin="442,56,0,0" VerticalAlignment="Top" Height="22" Width="183" Click="Button_Click_ShowNewWindow" Grid.Column="1" Background="#FFAFECC6"/>
+        <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Left" Margin="576,102,0,0" VerticalAlignment="Top" Height="22" Width="49" RenderTransformOrigin="1.451,0.507" Grid.Column="1" Background="#FFCCCCCC" Click="Button_Click_CloseApplication"/>
+        <Label Content="User Name" HorizontalAlignment="Left" Margin="2,25,0,0" VerticalAlignment="Top" Width="355" Height="26" Grid.Column="1"/>
+    </Grid>
+</Window>
