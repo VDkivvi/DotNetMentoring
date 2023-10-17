@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Task1
 {
@@ -10,19 +12,12 @@ namespace Task1
         /// <param name="numbers">Numbers to sort.</param>
         public static void Sort(int[] numbers)
         {
-            int temp;
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                for (int j = i; j < numbers.Length; j++)
-                {
-                    if (numbers[i] < numbers[j])
-                    {
-                        temp = numbers[i];
-                        numbers[i] = temp;
-                        numbers[j] = numbers[i];
-                    }
-                }
-            }
+            if (numbers == null)
+                throw new ArgumentNullException($"Array to sort shouldn't be null");
+            for (var i = 0; i < numbers.Length - 1; i++)
+                for (var j = 0; j < numbers.Length - i - 1; j++) 
+                    if (numbers[j] > numbers[j + 1])
+                        (numbers[j], numbers[j + 1]) = (numbers[j + 1], numbers[j]);
         }
 
         /// <summary>
@@ -35,16 +30,11 @@ namespace Task1
         /// otherwise -1.</returns>
         public static int IndexOf(Product[] products, Predicate<Product> predicate)
         {
-            for (int i = 0; i < products.Length - 1; i++)
-            {
-                var product = products[i - 1];
-                if (predicate(product))
-                {
-                    return --i;
-                }
-            }
-
-            return -1;
+            if (predicate == null)
+                throw new ArgumentNullException($"Condition Shouldn't be null");
+            var t = products.Select((prod, ind) => new { prod, ind })
+                .FirstOrDefault(product =>predicate(product.prod));
+            return t?.ind ?? -1;
         }
     }
 }

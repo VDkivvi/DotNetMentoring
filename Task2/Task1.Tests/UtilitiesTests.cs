@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using System;
-using Task1;
+using System.Linq;
 
 namespace Task1.Tests
 {
@@ -10,11 +10,11 @@ namespace Task1.Tests
         [Test]
         public void Sort_Numbers_ReturnsAscendingSortedNumbers()
         {
-            int[] numbers = new[] { 4, 2, 1, 3, -5 };
+            int[] numbers = { 4, 2, 1, 3, -5 };
 
             Utilities.Sort(numbers);
 
-            CollectionAssert.AreEqual(new[] { -5, 1, 2, 3, 4 }, numbers);
+            CollectionAssert.AreEqual(numbers.OrderBy(x => x), numbers);
         }
 
         [Test]
@@ -26,17 +26,17 @@ namespace Task1.Tests
         [Test]
         public void Sort_EmptyArray_ReturnsEmptyArray()
         {
-            int[] numbers = new int[0];
+            int[] numbers = Array.Empty<int>();
 
             Utilities.Sort(numbers);
 
-            CollectionAssert.AreEqual(new int[0], numbers);
+            CollectionAssert.AreEqual(Array.Empty<int>(), numbers);
         }
 
         [Test]
         public void IndexOf_Products_ReturnsTwo()
         {
-            var products = new Product[]
+            var products = new[]
             {
                 new Product("Product 1", 10.0d),
                 new Product("Product 2", 20.0d),
@@ -52,7 +52,7 @@ namespace Task1.Tests
         [Test]
         public void IndexOf_NoMatch_ReturnsMinusOne()
         {
-            var products = new Product[]
+            var products = new[]
             {
                 new Product("Product 1", 10.0d),
                 new Product("Product 2", 20.0d),
@@ -68,16 +68,14 @@ namespace Task1.Tests
         [Test]
         public void IndexOf_EqualsWithNull_ReturnsMinusOne()
         {
-            var products = new Product[]
+            var products = new[]
             {
                 new Product("Product 1", 10.0d),
                 new Product("Product 2", 20.0d),
                 new Product("Product 3", 30.0d),
             };
             Product productToFind = null;
-
             int index = Utilities.IndexOf(products, product => product.Equals(productToFind));
-
             Assert.That(index, Is.EqualTo(-1));
         }
 
@@ -112,7 +110,7 @@ namespace Task1.Tests
         {
             Assert.That(() =>
             {
-                var products = new Product[] { new Product("Product 1", 10.0d) };
+                var products = new[] { new Product("Product 1", 10.0d) };
                 int index = Utilities.IndexOf(products, null);
             }, Throws.InstanceOf<ArgumentNullException>());
         }
@@ -120,7 +118,7 @@ namespace Task1.Tests
         [Test]
         public void IndexOf_EmptyArray_ReturnsMinusOne()
         {
-            var products = new Product[0];
+            var products = Array.Empty<Product>();
             var productToFind = new Product("Product 3", 30.0d);
 
             int index = Utilities.IndexOf(products, product => product.Equals(productToFind));
