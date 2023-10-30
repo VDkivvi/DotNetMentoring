@@ -10,7 +10,7 @@ namespace FileFinder
             var visitor = new FileSystemVisitor();
             visitor.FireState += (_, _) => { };
 
-            var path = (args.Length > 0) ? args[0] : @"c:\\Projects\\source\\repos\\Mentoring\\DotNet\\Task4\\FileFinder\\FileFinder\\";
+            var path = (args.Length > 0) ? args[0] : @"c:\Users\Valeriia_Danilova\source\repos\Mentoring\DotNet\Task4\Task1\";
             var filterPattern = (args.Length > 1) ? args[1] : @".*\.cs$";
 
 

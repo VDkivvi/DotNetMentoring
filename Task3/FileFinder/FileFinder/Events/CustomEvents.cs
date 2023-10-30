@@ -2,10 +2,11 @@
 {
     internal class CustomEvents
     {
-        internal virtual void Notify_event(EventHandler? ev, CustomEventArgs e)
+        internal virtual void Notify_event(EventHandler? ev, ConsoleNotifyEventArgs e)
         {
             if (ev == null) return;
             e.Message += $" at {DateTime.Now}";
+            Console.WriteLine(e.Message);
             ev(this, e);
         }
 
