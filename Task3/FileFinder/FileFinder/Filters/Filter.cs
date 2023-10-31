@@ -2,30 +2,23 @@
 
 namespace FileFinder.Filters
 {
-    internal class FileFilter
+    internal class FileNameRegexFilter : FilterBase
     {
-        readonly string _fileName;
-        readonly string _fileDir;
-        readonly string _filePath;
+        internal FileNameRegexFilter(string pattern) : base(pattern) { }
 
-        internal FileFilter(string filePath)
+        public override bool Filter(string fileName)
+            => _pattern.IsMatch(fileName);
+    }
+
+    internal class WildCardFilter : FilterBase
+    {
+        internal WildCardFilter(string pattern) : base(pattern) 
         {
-            _fileName = Path.GetFileName(filePath.Trim());
-            _fileDir = Path.GetDirectoryName(filePath.Trim());
-            _filePath = filePath;
+            _pattern = new Regex($"^{Regex.Escape(pattern).Replace("\\?", ".").Replace("\\*", ".*")}$");
         }
 
-        public bool FileNameByRegex(string pattern)
-            => new Regex(pattern).IsMatch(_fileName);
-
-        public bool FileNameStartsWith(string pattern)
-            => _fileName.StartsWith(pattern);
-
-        public bool FileDirByRegex(string pattern)
-            => new Regex(pattern).IsMatch(_fileDir);
-
-        public bool FullPathByRegex(string pattern)
-            => new Regex(pattern).IsMatch(_filePath);
+        public override bool Filter(string filepath)
+            => _pattern.IsMatch(filepath);
 
     }
 }

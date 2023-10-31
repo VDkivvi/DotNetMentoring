@@ -1,4 +1,5 @@
 ﻿using FileFinder.Events;
+using FileFinder.Filters;
 
 namespace FileFinder.FilesExplorer
 {
@@ -9,7 +10,7 @@ namespace FileFinder.FilesExplorer
 
 
         //just to try Queues and to not use recursion.
-        public List<string> GetFileList(Func<string, bool> fileSearchPattern, string dirPath)
+        public List<string> GetFileList(FilterBase fileSearchPattern, string dirPath)
         {
             _customEvents.Notify_event(FireState, 
                 new ConsoleNotifyEventArgs($"Starting search in directory {dirPath}"));
@@ -27,7 +28,7 @@ namespace FileFinder.FilesExplorer
                     while (sequenceEnum.MoveNext())
                     {
                         if (sequenceEnum.Current == null) continue;
-                        if (!fileSearchPattern(sequenceEnum.Current)) continue;
+                        if (!fileSearchPattern.Filter(sequenceEnum.Current)) continue;
 
                         promptArgs.File = sequenceEnum.Current;
                         _customEvents.Prompt_event(FireState, promptArgs);

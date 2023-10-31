@@ -14,7 +14,7 @@ namespace FileFinder
             var filterPattern = (args.Length > 1) ? args[1] : @".*\.cs$";
 
 
-            visitor.GetFileList(f => new FileFilter(f).FileNameByRegex(filterPattern), path);
+            visitor.GetFileList(new FileNameRegexFilter(filterPattern), path);
         }
     }
 }
