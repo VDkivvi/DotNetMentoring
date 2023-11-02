@@ -7,71 +7,55 @@ namespace Task3.Tests
     [TestFixture]
     public class UserTaskControllerTests
     {
-        private readonly UserTaskController _controller;
-        private readonly IUserDao _userDao;
+        UserTaskController _controller;
+        IUserDao _userDao;
+        ResponseModelStub _model;
 
-        public UserTaskControllerTests()
+        [SetUp]
+        public void TestSetup()
         {
             _userDao = new UserDaoStub();
-            var taskService = new UserTaskService(_userDao);
-            _controller = new UserTaskController(taskService);
+            _controller = new UserTaskController(new UserTaskService(_userDao));
+            _model = new ResponseModelStub();
         }
 
-        [Test]
-        public void CreateUserTask_ValidData_ReturnsTaskAndEmptyMessage()
+        [TestCase("task4", 1, 3)]
+        public void CreateUserTask_ValidData_CheckDescription(
+            string description, int userId, int taskNumb)
         {
-            var model = new ResponseModelStub();
-            string description = "task4";
-            int userId = 1;
-
-            bool result = _controller.AddTaskForUser(userId, description, model);
-
-            Assert.That(result, Is.EqualTo(true));
-            Assert.That(model.GetActionResult(), Is.Null);
-            Assert.That(_userDao.GetUser(userId).Tasks.Count, Is.EqualTo(4));
-            StringAssert.AreEqualIgnoringCase(_userDao.GetUser(userId).Tasks[3].Description, description);
+            _controller.AddTaskForUser(userId, description, _model);
+            StringAssert.AreEqualIgnoringCase(_userDao.GetUser(userId).Tasks[taskNumb].Description, description);
         }
 
-        [Test]
-        public void CreateUserTask_InvalidUserId_ReturnsNullAndInvalidUserIdMessage()
+
+        [TestCase("task4", 1, true)]
+        [TestCase("task4", -11, false)]
+        [TestCase("task4", 2, false)]
+        public void AddTaskForUser_CheckResult(
+            string description, int userId, bool isSuccessful)
         {
-            var model = new ResponseModelStub();
-            string description = "task4";
-            int userId = -11, existingUserId = 1;
-
-            bool result = _controller.AddTaskForUser(userId, description, model);
-
-            Assert.That(result, Is.EqualTo(false));
-            StringAssert.AreEqualIgnoringCase(model.GetActionResult(), "Invalid userId");
-            Assert.That(_userDao.GetUser(existingUserId).Tasks.Count, Is.EqualTo(3));
+            bool result = _controller.AddTaskForUser(userId, description, _model);
+            Assert.That(result, Is.EqualTo(isSuccessful));
         }
 
-        [Test]
-        public void CreateUserTask_NonExistentUser_ReturnsNullAndUserNotFoundMessage()
+        [TestCase("task4", 1, 1, 4)]
+        [TestCase("task4", -11, 1, 3)]
+        [TestCase("task4", 2, 1, 3)]
+        public void AddTaskForUser_CheckTheNumberOfTasks(
+            string description, int userId, int existingUserId, int tasksNumber)
         {
-            var model = new ResponseModelStub();
-            string description = "task4";
-            int userId = 2, existingUserId = 1;
-
-            bool result = _controller.AddTaskForUser(userId, description, model);
-
-            Assert.That(result, Is.EqualTo(false));
-            StringAssert.AreEqualIgnoringCase(model.GetActionResult(), "User not found");
-            Assert.That(_userDao.GetUser(existingUserId).Tasks.Count, Is.EqualTo(3));
+            _controller.AddTaskForUser(userId, description, _model);
+            Assert.That(_userDao.GetUser(existingUserId).Tasks.Count, Is.EqualTo(tasksNumber));
         }
 
-        [Test]
-        public void CreateUserTask_NonExistentUser_ReturnsNullAndTheTaskAlreadyExistsMessage()
+        [TestCase("task4", 1, null)]
+        [TestCase("task4", -11, "Invalid userId")]
+        [TestCase("task4", 2, "User not found")]
+        public void AddTaskForUser_CheckErrorMessage(
+            string description, int userId, string? errorMessage)
         {
-            var model = new ResponseModelStub();
-            string description = "task4";
-            int userId = 2, existingUserId = 1;
-
-            bool result = _controller.AddTaskForUser(userId, description, model);
-
-            Assert.That(result, Is.EqualTo(false));
-            StringAssert.AreEqualIgnoringCase(model.GetActionResult(), "User not found");
-            Assert.That(_userDao.GetUser(existingUserId).Tasks.Count, Is.EqualTo(3));
+            _controller.AddTaskForUser(userId, description, _model);
+            StringAssert.AreEqualIgnoringCase(_model.GetActionResult(), errorMessage);
         }
     }
 }
