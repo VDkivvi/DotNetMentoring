@@ -8,9 +8,9 @@ namespace ReflectionTask
     {
         static void Main(string[] args)
         {
-            var envConfig = new ConfigComponent<EnvConfig>();
-            envConfig.Using<SystemEnvNameAttribute>().LoadSettings();
-            Console.WriteLine(envConfig.Config);
+            //var envConfig = new ConfigComponent<EnvConfig>();
+            //envConfig.Using<SystemEnvNameAttribute>().LoadSettings();
+            //Console.WriteLine(envConfig.Config);
 
             var application = new ConfigComponent<CustomConfig>();
 
