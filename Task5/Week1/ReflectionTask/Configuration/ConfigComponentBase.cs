@@ -80,6 +80,9 @@ namespace ReflectionTask.Configuration
         {
             foreach (var prop in Config.GetType().GetProperties())
             {
+                if (currentProvider == null)
+                    throw new InvalidOperationException("Please, assign type of Attribute at least once");
+
                 var attrs = prop.GetCustomAttribute(AttributeType, false);
 
                 if (attrs == null) continue;

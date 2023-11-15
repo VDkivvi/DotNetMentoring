@@ -8,9 +8,9 @@ namespace ReflectionTask
     {
         static void Main(string[] args)
         {
-            //var envConfig = new ConfigComponent<EnvConfig>();
-            //envConfig.LoadSettings();
-            //Console.WriteLine(envConfig.Config);
+            var envConfig = new ConfigComponent<EnvConfig>();
+            envConfig.Using<SystemEnvNameAttribute>().LoadSettings();
+            Console.WriteLine(envConfig.Config);
 
             var application = new ConfigComponent<CustomConfig>();
 
@@ -18,12 +18,10 @@ namespace ReflectionTask
             Console.WriteLine(application.Config);
 
             application.Using<JsonConfigNameAttribute>().LoadSettings();
+            application.SaveSettings("configuration.lastBuildNumber", "14");
             Console.WriteLine(application.Config);
 
-            application.SaveSettings("configuration.lastBuildNumber", "14");
-
             application.Using<AppConfigNameAttribute>().SaveSettings("build", "1000");
-
             Console.WriteLine(application.Config);
         }
     }
