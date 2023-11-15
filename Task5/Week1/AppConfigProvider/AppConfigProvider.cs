@@ -14,21 +14,21 @@ namespace AppConfigProvider
             }
             catch (ConfigurationErrorsException e)
             {
-                throw new ConfigurationErrorsException($"Error reading app setting {key}: \n {e.Message}. {e.InnerException.Message}");
+                throw new ConfigurationErrorsException($"Error reading app setting {key}: \n {e.Message}. {e.InnerException?.Message}");
             }
             return string.Empty;
         }
 
-        public void WriteSetting(string settName, object SettValue)
+        public void WriteSetting(string setName, object setValue)
         {
             try
             {
                 var appSettings = ConfigurationManager.AppSettings;
-                appSettings[settName] = SettValue.ToString();
+                appSettings[setName] = setValue.ToString();
             }
             catch (ConfigurationErrorsException e)
             {
-                throw new ConfigurationErrorsException($"Error writing app setting {settName}: \n {e.Message}. {e.InnerException.Message}");
+                throw new ConfigurationErrorsException($"Error writing app setting {setName}: \n {e.Message}. {e.InnerException?.Message}");
             }
         }
     }

@@ -14,15 +14,15 @@ namespace ReflectionTask
 
             var application = new ConfigComponent<CustomConfig>();
 
-            //application.Using<FileConfigNameAttribute>().LoadSettings();
-            //Console.WriteLine(application.Config);
-
             application.Using<AppConfigNameAttribute>().LoadSettings();
             Console.WriteLine(application.Config);
 
-            //application.Using<AppConfigNameAttribute>().SaveSettings("build", envConfig.Config.LastBuildNumber);
-            application.Using<AppConfigNameAttribute>().SaveSettings("build", "14");
-            //application.Using<FileConfigNameAttribute>().SaveSettings("build", new DateTime(2023, 11, 22));
+            application.Using<JsonConfigNameAttribute>().LoadSettings();
+            Console.WriteLine(application.Config);
+
+            application.SaveSettings("configuration.lastBuildNumber", "14");
+
+            application.Using<AppConfigNameAttribute>().SaveSettings("build", "1000");
 
             Console.WriteLine(application.Config);
         }

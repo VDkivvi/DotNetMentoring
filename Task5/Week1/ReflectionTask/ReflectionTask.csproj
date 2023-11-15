@@ -9,7 +9,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppConfigProvider\AppConfigProvider.csproj" />
+    <ProjectReference Include="..\FileConfigProvider\JSONConfigProvider.csproj" />
     <ProjectReference Include="..\Providers\Providers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

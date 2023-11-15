@@ -1,8 +1,8 @@
 ﻿namespace ReflectionTask.Attributes
 {
-    public class FileConfigNameAttribute : ConfigNameAttribute
+    public class JsonConfigNameAttribute : ConfigNameAttribute
     {
-        public FileConfigNameAttribute(string settingName) : base(settingName)
+        public JsonConfigNameAttribute(string settingName) : base(settingName)
         {
         }
     }
