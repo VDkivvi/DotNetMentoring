@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using Tasks.DoNotChange;
 
 namespace Tasks;
@@ -45,7 +44,7 @@ public class DoublyLinkedList<T> : IDoublyLinkedList<T>
         return currentNode;
     }
 
-    private void AddLast(T data)
+    public void AddLast(T data)
     {
         var newNode = new Node<T> { item = data };
         if (head == null)
@@ -71,6 +70,54 @@ public class DoublyLinkedList<T> : IDoublyLinkedList<T>
         tail.prev = prevNode;
         size++;
     }
+
+    public void AddFirst(T data)
+    {
+        var newNode = new Node<T> { item = data };
+        if (head == null)
+        {
+            head = newNode;
+            size++;
+            return;
+        }
+
+        if (tail == null)
+        {
+            tail = head;
+            tail.prev = head;
+            tail.next = null;
+
+            head = newNode;
+            head.next = tail;
+            size++;
+            return;
+        }
+
+        var firstNode = head;
+        head = newNode;
+        firstNode.prev = head;
+        head.next = firstNode;
+        size++;
+    }
+
+    public void RemoveFirst()
+    {
+        var nextNode = head.next;
+        head = nextNode;
+        if (nextNode != null)
+            head.prev = null;
+        size--;
+    }
+
+    public void RemoveLast()
+    {
+        var lastNode = tail.prev;
+        tail = lastNode;
+        if (lastNode != null)
+            tail.next = null;
+        size--;
+    }
+
 
     public void Add(T e) => AddLast(e);
 
@@ -141,15 +188,15 @@ public class DoublyLinkedList<T> : IDoublyLinkedList<T>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     //WITHOUT YIELD RETURN:
-    class EnumeratorImplementation : IEnumerator<T>
+    private class EnumeratorImplementation : IEnumerator<T>
     {
-        int _curIndex = -1;
+        private int _curIndex = -1;
 
         private readonly DoublyLinkedList<T> _self;
 
         public EnumeratorImplementation(DoublyLinkedList<T> self) => _self = self;
 
-        bool IsIndexValid => _curIndex >= 0 && _curIndex < _self.size;
+        private bool IsIndexValid => _curIndex >= 0 && _curIndex < _self.size;
         public T Current => IsIndexValid ? _self.ElementAt(_curIndex) : throw new IndexOutOfRangeException();
         object IEnumerator.Current => Current;
 

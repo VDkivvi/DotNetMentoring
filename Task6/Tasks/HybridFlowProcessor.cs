@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Tasks.DoNotChange;
 
 /*
@@ -11,24 +12,44 @@ namespace Tasks
 {
     public class HybridFlowProcessor<T> : IHybridFlowProcessor<T>
     {
+        readonly DoublyLinkedList<T> storage = new();
+
         public T Dequeue()
         {
-            throw new NotImplementedException();
+            if (storage.Length == 0)
+                throw new InvalidOperationException();
+
+            storage.RemoveFirst();
+            return storage.ElementAt(0);
         }
 
         public void Enqueue(T item)
         {
-            throw new NotImplementedException();
+            storage.AddFirst(item);
         }
 
         public T Pop()
         {
-            throw new NotImplementedException();
+            if (storage.Length == 0)
+                throw new InvalidOperationException();
+            storage.RemoveLast();
+            return storage.ElementAt(storage.Length -1);
         }
 
         public void Push(T item)
         {
-            throw new NotImplementedException();
+            storage.AddLast(item);
         }
+
+        public string GetAllItems()
+        {
+            var sb = new StringBuilder();
+            foreach (var item in storage)
+            {
+                sb.Append(item).Append(" ");
+            }
+            return sb.ToString();
+        }
+
     }
 }
