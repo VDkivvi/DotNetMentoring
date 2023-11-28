@@ -18,27 +18,26 @@ namespace Tasks
         {
             if (storage.Length == 0)
                 throw new InvalidOperationException();
-
-            storage.RemoveFirst();
-            return storage.ElementAt(0);
+           
+            return storage.RemoveAt(0);
         }
 
         public void Enqueue(T item)
         {
-            storage.AddFirst(item);
+            storage.AddAt(storage.Length, item);
         }
 
         public T Pop()
         {
             if (storage.Length == 0)
                 throw new InvalidOperationException();
-            storage.RemoveLast();
+            storage.RemoveAt(storage.Length - 1);
             return storage.ElementAt(storage.Length -1);
         }
 
         public void Push(T item)
         {
-            storage.AddLast(item);
+            storage.AddAt(storage.Length, item);
         }
 
         public string GetAllItems()

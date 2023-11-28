@@ -20,104 +20,7 @@ public class DoublyLinkedList<T> : IDoublyLinkedList<T>
 
     public int Length => size;
 
-
-    private Node<T> NodeAt(int index)
-    {
-        if (index >= size || index < 0 || head == null) throw new IndexOutOfRangeException();
-        var ind = 0;
-        var currentNode = head;
-        while (ind < index)
-        {
-            currentNode = currentNode.next;
-            ind++;
-        }
-
-        return currentNode;
-    }
-
-    private Node<T> FindTheFirstNodeWithValue(T itemValue)
-    {
-        if (head == null) throw new IndexOutOfRangeException();
-        var currentNode = head;
-        while (currentNode != null && !currentNode.item.Equals(itemValue)) currentNode = currentNode.next;
-
-        return currentNode;
-    }
-
-    public void AddLast(T data)
-    {
-        var newNode = new Node<T> { item = data };
-        if (head == null)
-        {
-            head = newNode;
-            size++;
-            return;
-        }
-
-        if (tail == null)
-        {
-            tail = newNode;
-            tail.prev = head;
-            head.next = tail;
-            head.prev = null;
-            size++;
-            return;
-        }
-
-        var prevNode = tail;
-        tail = newNode;
-        prevNode.next = tail;
-        tail.prev = prevNode;
-        size++;
-    }
-
-    public void AddFirst(T data)
-    {
-        var newNode = new Node<T> { item = data };
-        if (head == null)
-        {
-            head = newNode;
-            size++;
-            return;
-        }
-
-        if (tail == null)
-        {
-            tail = head;
-            tail.prev = head;
-            tail.next = null;
-
-            head = newNode;
-            head.next = tail;
-            size++;
-            return;
-        }
-
-        var firstNode = head;
-        head = newNode;
-        firstNode.prev = head;
-        head.next = firstNode;
-        size++;
-    }
-
-    public void RemoveFirst()
-    {
-        var nextNode = head.next;
-        head = nextNode;
-        if (nextNode != null)
-            head.prev = null;
-        size--;
-    }
-
-    public void RemoveLast()
-    {
-        var lastNode = tail.prev;
-        tail = lastNode;
-        if (lastNode != null)
-            tail.next = null;
-        size--;
-    }
-
+    public IEnumerator<T> GetEnumerator() => new EnumeratorImplementation(this);
 
     public void Add(T e) => AddLast(e);
 
@@ -177,15 +80,71 @@ public class DoublyLinkedList<T> : IDoublyLinkedList<T>
         var nodeToRemove = NodeAt(index);
         var prevNode = nodeToRemove.prev;
         var nextNode = nodeToRemove.next;
-        if (nodeToRemove.next != null) nextNode.prev = prevNode;
-        prevNode.next = nextNode;
+        if (nextNode != null) nextNode.prev = prevNode;
+        if (prevNode != null) prevNode.next = nextNode;
         size--;
         return nodeToRemove.item;
     }
 
-    public IEnumerator<T> GetEnumerator() => new EnumeratorImplementation(this);
 
+
+    #region private methods
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+
+    private Node<T> NodeAt(int index)
+    {
+        if (index >= size || index < 0 || head == null) throw new IndexOutOfRangeException();
+
+        bool closerToStart = (index - Length / 2) > 0 || index == 0;
+        var currentNode = closerToStart ? head : tail;
+        var ind = closerToStart ? 0 : size - 1;
+        var iterator = closerToStart ? 1 : -1;
+        bool validIndex() => closerToStart ? ind < index : ind > index;
+
+        while (validIndex())
+        {
+            currentNode = closerToStart ? currentNode.next : currentNode.prev;
+            ind += iterator;
+        }
+        return currentNode;
+    }
+
+    private Node<T> FindTheFirstNodeWithValue(T itemValue)
+    {
+        if (head == null) throw new IndexOutOfRangeException();
+        var currentNode = head;
+        while (currentNode != null && !currentNode.item.Equals(itemValue)) currentNode = currentNode.next;
+
+        return currentNode;
+    }
+
+    private void AddLast(T data)
+    {
+        var newNode = new Node<T> { item = data };
+        if (head == null)
+        {
+            head = newNode;
+            size++;
+            return;
+        }
+
+        if (tail == null)
+        {
+            tail = newNode;
+            tail.prev = head;
+            head.next = tail;
+            head.prev = null;
+            size++;
+            return;
+        }
+
+        var prevNode = tail;
+        tail = newNode;
+        prevNode.next = tail;
+        tail.prev = prevNode;
+        size++;
+    }
 
     //WITHOUT YIELD RETURN:
     private class EnumeratorImplementation : IEnumerator<T>
@@ -198,6 +157,7 @@ public class DoublyLinkedList<T> : IDoublyLinkedList<T>
 
         private bool IsIndexValid => _curIndex >= 0 && _curIndex < _self.size;
         public T Current => IsIndexValid ? _self.ElementAt(_curIndex) : throw new IndexOutOfRangeException();
+
         object IEnumerator.Current => Current;
 
         public bool MoveNext()
@@ -210,4 +170,6 @@ public class DoublyLinkedList<T> : IDoublyLinkedList<T>
         public void Reset() => _curIndex = -1;
         public void Dispose() { }
     }
+
+    #endregion
 }
