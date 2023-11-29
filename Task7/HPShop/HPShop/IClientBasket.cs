@@ -3,8 +3,9 @@
     public interface IClientBasket
     {
         void InitNewClient();
+        void ClearBasket();
         string ShowBasket();
-        List<(Book, int numberOfBooks)> Basket { get; set; }
+        Dictionary<int, (Book book, double price, int numberOfBooks)> Basket { get; set; }
         double GetDiscount();
         double GetOverallPrice();
         int GetBooksCountInTheBasket();

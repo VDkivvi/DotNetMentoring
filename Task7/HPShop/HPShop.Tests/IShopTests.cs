@@ -111,12 +111,12 @@ public class Tests
     public void Books_list_not_null()
     {
         shop = new HPShop(HarryPotterTestDataClass.hpShopBooks_2_book_titles);
-        Assert.That(shop.AvailableDenominations.Count(), Is.EqualTo(2));
+        Assert.That(shop.AvailableDenominations[0].numberOfBooks, Is.EqualTo(2));
         shop.AddBookToBasket(0);
         shop.AddBookToBasket(0);
-        Assert.That(shop.AvailableDenominations.Count(), Is.EqualTo(1));
+        Assert.That(shop.AvailableDenominations[0].numberOfBooks, Is.EqualTo(0));
         shop.RemoveBookFromBasket(0);
-        Assert.That(shop.AvailableDenominations.Count(), Is.EqualTo(2));
+        Assert.That(shop.AvailableDenominations[0].numberOfBooks, Is.EqualTo(1));
     }
 
 
@@ -127,6 +127,8 @@ public class Tests
         shop.AddBookToBasket(0);
         shop.AddBookToBasket(0);
         shop.AddBookToBasket(1);
-        Assert.That(shop.ShowBooks(), Is.EqualTo(string.Empty));
+        Assert.IsTrue(shop.ShowBooks().Contains("Available amount 0"));
+        shop.RemoveBookFromBasket(1);
+        Assert.IsTrue(shop.ShowBooks().Contains("Available amount 1"));
     }
 }
