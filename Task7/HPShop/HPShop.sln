@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HPShop", "HPShop\HPShop.csproj", "{BCD8D0C9-298E-41EC-87A6-942397F3982A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HPShop.Tests", "HPShop.Tests\HPShop.Tests.csproj", "{C85E813A-6C6B-48B8-B875-7D2CF02AE9FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCD8D0C9-298E-41EC-87A6-942397F3982A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD8D0C9-298E-41EC-87A6-942397F3982A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD8D0C9-298E-41EC-87A6-942397F3982A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD8D0C9-298E-41EC-87A6-942397F3982A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C85E813A-6C6B-48B8-B875-7D2CF02AE9FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C85E813A-6C6B-48B8-B875-7D2CF02AE9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C85E813A-6C6B-48B8-B875-7D2CF02AE9FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C85E813A-6C6B-48B8-B875-7D2CF02AE9FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5DC96BA-249F-4CC7-8367-34E1CC750DBE}
+	EndGlobalSection
+EndGlobal
