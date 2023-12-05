@@ -6,5 +6,5 @@ public interface ILabyrinth
 
     List<char> GetPathToTheEnd();
 
-    List<Point?> DiscoverTheNeighborhood(Point p);
+    Dictionary<char, Point?> DiscoverTheNeighborhood(Point p);
 }
