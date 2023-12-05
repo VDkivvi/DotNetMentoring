@@ -74,5 +74,26 @@ namespace Labyrinth.Tests
              { '*', '-', '-', '*', 's', 'e' },};
             Assert.ThrowsException<ApplicationException>(() => { new Labyrinth(l); });
         }
+
+
+        [TestMethod]
+        public void Labyrinth_FindCharPosition()
+        {
+            var l = new char[,]
+            {
+                { '*', '*', '*', '*', '*', '*' },
+                { '*', '-', '*', '*', '-', '*' },
+                { '*', 's', '-', '*', '*', '*' },
+                { '*', '*', '-', '*', '*', '*' },
+                { '*', '-', '-', '*', '*', '*' },
+                { '*', '-', '*', '*', '-', '*' },
+                { '*', '-', '-', '-', '-', '*' },
+                { '*', '*', '-', '-', 'e', '*' },
+                { '*', '*', '*', '*', '*', '*' },
+                { '*', '*', '*', '*', '*', '*' }};
+            var lab = new Labyrinth(l);
+            Assert.AreEqual(lab.FindCharPosition('s'), (2, 1));
+            Assert.AreEqual(lab.FindCharPosition('q'), (-1, -1));
+        }
     }
 }

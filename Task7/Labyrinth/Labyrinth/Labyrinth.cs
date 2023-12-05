@@ -26,7 +26,11 @@ public class Labyrinth : ILabyrinth
 
     public (int row, int column) FindCharPosition(char ch)
     {
-        throw new NotImplementedException();
+        for (var i = 0; i < _rows; i++)
+            for (var j = 0; j < _columns; j++)
+                if (_labyrinth[i, j] == ch)
+                    return (i, j);
+        return (-1, -1);
     }
 
     public List<char> GetPathToTheEnd()
