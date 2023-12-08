@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[Employee]
 (
-	[Id] INT NOT NULL PRIMARY KEY,
+	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	AddressId INT NOT NULL REFERENCES Address(Id), 
 	PersonId INT NOT NULL REFERENCES Person(Id),
-	CompanyName NVARCHAR(20) NOT NULL,
+	CompanyId INT NOT NULL REFERENCES Company(Id),
 	Position NVARCHAR(30) NULL,
 	EmployeeName NVARCHAR(100) NULL
 )
