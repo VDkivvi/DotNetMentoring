@@ -19,7 +19,7 @@ BEGIN
 
     UPDATE e
     SET e.CompanyId = c.Id
-    FROM Employee e
-    INNER JOIN Company c ON e.AddressId = c.AddressId
-    WHERE e.Id IN (SELECT Id FROM inserted);
+        FROM Employee e
+            INNER JOIN Company c ON e.AddressId = c.AddressId
+            WHERE e.Id IN (SELECT Id FROM inserted);
 END;

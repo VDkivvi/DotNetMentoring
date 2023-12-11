@@ -24,9 +24,9 @@ CREATE PROCEDURE sp_InsertEmployeeInfo
     @EmployeeName NVARCHAR(50) = NULL,
     @FirstName NVARCHAR(50) = NULL,
     @LastName NVARCHAR(50) = NULL,
-    @CompanyName NVARCHAR(50) = NULL,
+    @CompanyName NVARCHAR(50),
     @Position NVARCHAR(50) = NULL,
-    @Street NVARCHAR(50) = NULL,
+    @Street NVARCHAR(50),
     @City NVARCHAR(50) = NULL,
     @State NVARCHAR(50) = NULL,
     @ZipCode NVARCHAR(10) = NULL

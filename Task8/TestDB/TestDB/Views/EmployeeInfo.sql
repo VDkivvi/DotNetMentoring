@@ -15,11 +15,11 @@ SELECT
     CONCAT(C.Name, '(', E.Position, ')') AS EmployeeCompanyInfo
 FROM 
     Employee E
-JOIN 
+LEFT JOIN 
     Company C ON E.CompanyId = C.Id
-JOIN 
+LEFT JOIN 
     Person P ON E.PersonId = P.Id
-JOIN 
+LEFT JOIN 
     Address A ON E.AddressId = A.Id
 ORDER BY 
     C.Name ASC, A.City ASC
