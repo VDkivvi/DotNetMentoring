@@ -15,3 +15,5 @@ UpgradeLog*.htm
 *.cache
 *.feature.cs
 *.bak
+*.dbmdl
+/Task8/TestDB/TestDB/TestDB.jfm

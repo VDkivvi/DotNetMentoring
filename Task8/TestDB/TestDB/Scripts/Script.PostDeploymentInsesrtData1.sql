@@ -10,12 +10,11 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-INSERT INTO Employee (AddressId, PersonId, CompanyId, Position, EmployeeName)
+INSERT INTO Address (Street, City, State, ZipCode)
 	VALUES 
-		(1, 1, 1, 'Lawyer', 'Fantastic Mr.Fox'), 
-		(2, 2, 1, 'Janitor', 'Hey,come here'),
-		(3, 3, 2, 'Supply Manager', 'Can I have another pen1'),
-		(3, 4, 2, 'Supply Manager', 'Can I have another pen2');
+		('Prakhovyh', 'Kyiv', 'AA', '02022'), 
+		('Zhylyanska', 'Cherkasy', 'CA', '03023'),
+		('Fizkultury', 'Vinnytsya', 'KB', '04024');
 
 
 INSERT INTO Person (FirstName, LastName)
@@ -25,13 +24,20 @@ INSERT INTO Person (FirstName, LastName)
 		('Vasya', 'Chorny'), 
 		('Oleg', 'ProstoOleg');
 
+
 INSERT INTO Company (Name, AddressId)
 	VALUES  
 		('EAE', 1), 
 		('EAE2', 2);
 
-INSERT INTO Address (Street, City, State, ZipCode)
+INSERT INTO Employee (AddressId, PersonId, CompanyId, Position, EmployeeName)
 	VALUES 
-		('Prakhovyh', 'Kyiv', 'AA', '02022'), 
-		('Zhylyanska', 'Cherkasy', 'CA', '03023'),
-		('Fizkultury', 'Vinnytsya', 'KB', '04024');
+		(1, 1, 1, 'Lawyer', 'Fantastic Mr.Fox'), 
+		(2, 2, 1, 'Janitor', 'Hey,come here'),
+		(3, 3, 2, 'Supply Manager', 'Can I have another pen1'),
+		(3, 4, 2, 'Supply Manager', 'Can I have another pen2');
+
+
+
+
+

@@ -32,53 +32,56 @@ CREATE PROCEDURE sp_InsertEmployeeInfo
     @ZipCode NVARCHAR(10) = NULL
 AS
 BEGIN
-    DECLARE @AddressId INT;
+	SET NOCOUNT ON;
+
+	DECLARE @AddressId INT;
     DECLARE @PersonId INT;
     DECLARE @CompanyId INT;
+	SET @CompanyName = LEFT(@CompanyName, 20)
 
-    IF COALESCE(NULLIF(TRIM(@EmployeeName), ''), NULLIF(TRIM(@FirstName), ''), NULLIF(TRIM(@LastName), '')) IS NULL
-    BEGIN
-        PRINT('At least one of the name fields should not be NULL, empty, or contain only spaces.')
-        RETURN;
-    END
-    SET @CompanyName = LEFT(@CompanyName, 20)
-
-    IF EXISTS (SELECT Id FROM Address WHERE (Street = @Street AND City = @City AND State = @State))
-        BEGIN
-            SELECT @AddressId AS Id;
-        END
-    ELSE
-        BEGIN
-            INSERT INTO Address (Street, City, State, ZipCode) VALUES (@Street, @City, @State, @ZipCode);
-            SET @AddressId = SCOPE_IDENTITY();
-            SELECT @AddressId AS Id;
-        END
-
-    IF EXISTS (SELECT Id FROM Company WHERE (Name = @CompanyName))
-        BEGIN
-            SET @CompanyId = Id;
-        END
-    ELSE
-        BEGIN
-            INSERT INTO Company (Name) VALUES (@CompanyName);
-            SET @CompanyId = SCOPE_IDENTITY();
-            SELECT @CompanyId AS Id;
-        END
+ IF COALESCE(NULLIF(TRIM(@EmployeeName), ''), NULLIF(TRIM(@FirstName), ''), NULLIF(TRIM(@LastName), '')) IS NULL
+ BEGIN
+     PRINT('At least one of the name fields should not be NULL, empty, or contain only spaces.')
+     RETURN;
+ END
 
 
-    IF EXISTS (SELECT Id FROM Person WHERE (FirstName = @FirstName AND LastName = @LastName))
-        BEGIN
-            SET @PersonId = Id;
-        END
-    ELSE
-        BEGIN
-            INSERT INTO Person (FirstName, LastName) VALUES (@FirstName, @LastName);
-            SET @PersonId = SCOPE_IDENTITY();
-            SELECT @PersonId AS Id;
-        END
+ IF EXISTS (SELECT Id FROM Address WHERE (Street = @Street AND City = @City AND State = @State))
+     BEGIN
+         SELECT @AddressId AS Id;
+     END
+ ELSE
+     BEGIN
+         INSERT INTO Address (Street, City, State, ZipCode) VALUES (@Street, @City, @State, @ZipCode);
+         SET @AddressId = SCOPE_IDENTITY();
+         SELECT @AddressId AS Id;
+     END
 
-    INSERT INTO Employee 
-    (EmployeeName, AddressId, PersonId, CompanyId, Position, EmployeeName)
-        VALUES (@EmployeeName, @AddressId, @PersonId, @CompanyId, @Position, @EmployeeName)
-    PRINT 'Employee information inserted successfully.'
+ IF EXISTS (SELECT 1 FROM Company WHERE (Name = @CompanyName))
+     BEGIN
+         SELECT @CompanyId = 1;
+     END
+ ELSE
+     BEGIN
+         INSERT INTO Company (Name) VALUES (@CompanyName);
+         SET @CompanyId = SCOPE_IDENTITY();
+         SELECT @CompanyId AS Id;
+     END
+
+
+ IF EXISTS (SELECT 1 FROM Person WHERE (FirstName = @FirstName AND LastName = @LastName))
+     BEGIN
+         SET @PersonId = 1;
+     END
+ ELSE
+     BEGIN
+         INSERT INTO Person (FirstName, LastName) VALUES (@FirstName, @LastName);
+         SET @PersonId = SCOPE_IDENTITY();
+         SELECT @PersonId AS Id;
+     END
+
+ INSERT INTO Employee 
+ (AddressId, PersonId, CompanyId, Position, EmployeeName)
+     VALUES (@AddressId, @PersonId, @CompanyId, @Position, @EmployeeName)
+ PRINT 'Employee information inserted successfully.'
 END
