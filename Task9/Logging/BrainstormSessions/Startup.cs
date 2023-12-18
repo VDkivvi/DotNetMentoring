@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Events;
+
 
 namespace BrainstormSessions
 {
@@ -20,12 +23,12 @@ namespace BrainstormSessions
                 optionsBuilder => optionsBuilder.UseInMemoryDatabase("InMemoryDb"));
 
             services.AddControllersWithViews();
-
             services.AddScoped<IBrainstormSessionRepository, EFStormSessionRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
+
             if (env.IsDevelopment())
             {
                 var repository = serviceProvider.GetRequiredService<IBrainstormSessionRepository>();
@@ -33,7 +36,18 @@ namespace BrainstormSessions
                 InitializeDatabaseAsync(repository).Wait();
             }
 
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
+
+            app.UseSerilogRequestLogging(options =>
+            {
+                options.MessageTemplate = "Handled {RequestPath}";
+                options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Debug;
+                options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                {
+                    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+                    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                };
+            });
 
             app.UseRouting();
 

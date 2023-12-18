@@ -24,10 +24,7 @@ namespace BrainstormSessions.Test.UnitTests
             BasicConfigurator.Configure(_appender);
         }
 
-        public void Dispose()
-        {
-            _appender.Clear();
-        }
+        public void Dispose() => _appender.Clear();
 
         [Fact]
         public async Task HomeController_Index_LogInfoMessages()

@@ -6,6 +6,7 @@ using BrainstormSessions.ClientModels;
 using BrainstormSessions.Core.Interfaces;
 using BrainstormSessions.Core.Model;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace BrainstormSessions.Api
 {
@@ -35,7 +36,7 @@ namespace BrainstormSessions.Api
                 Description = idea.Description,
                 DateCreated = idea.DateCreated
             }).ToList();
-
+            Log.Information("Got result {@result}", result);
             return Ok(result);
         }
 
@@ -60,7 +61,7 @@ namespace BrainstormSessions.Api
                 Name = model.Name
             };
             session.AddIdea(idea);
-
+            Log.Information("Adding {@Idea}", idea);
             await _sessionRepository.UpdateAsync(session);
 
             return Ok(session);

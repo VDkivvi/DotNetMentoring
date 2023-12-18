@@ -8,7 +8,7 @@ namespace BrainstormSessions.Controllers
     public class SessionController : Controller
     {
         private readonly IBrainstormSessionRepository _sessionRepository;
-
+ 
         public SessionController(IBrainstormSessionRepository sessionRepository)
         {
             _sessionRepository = sessionRepository;

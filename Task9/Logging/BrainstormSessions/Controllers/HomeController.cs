@@ -6,6 +6,7 @@ using BrainstormSessions.Core.Interfaces;
 using BrainstormSessions.Core.Model;
 using BrainstormSessions.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace BrainstormSessions.Controllers
 {
@@ -13,13 +14,15 @@ namespace BrainstormSessions.Controllers
     {
         private readonly IBrainstormSessionRepository _sessionRepository;
 
-        public HomeController(IBrainstormSessionRepository sessionRepository)
+        public HomeController( IBrainstormSessionRepository sessionRepository)
         {
+            Log.Information("HomeController");
             _sessionRepository = sessionRepository;
         }
 
         public async Task<IActionResult> Index()
         {
+            Log.Information("Task<IActionResult> Index");
             var sessionList = await _sessionRepository.ListAsync();
 
             var model = sessionList.Select(session => new StormSessionViewModel()
@@ -29,7 +32,7 @@ namespace BrainstormSessions.Controllers
                 Name = session.Name,
                 IdeaCount = session.Ideas.Count
             });
-
+            Log.Information("Current session parameters: {@StormSessionViewModel}", model.First());
             return View(model);
         }
 
@@ -54,7 +57,7 @@ namespace BrainstormSessions.Controllers
                     Name = model.SessionName
                 });
             }
-
+            Log.Information($"Adding session with name: {model.SessionName}");
             return RedirectToAction(actionName: nameof(Index));
         }
     }

@@ -1,0 +1,40 @@
+[16:18:19 INF] Application started. Press Ctrl+C to shut down.
+[16:18:19 INF] Hosting environment: Development
+[16:18:19 INF] Content root path: C:\Users\Valeriia_Danilova\source\repos\Mentoring\DotNet\Task9\Logging\BrainstormSessions
+[16:18:19 ERR] Connection ID "18374686511347007530", Request ID "8000002b-0007-ff00-b63f-84710c7967bb": An unhandled exception was thrown by the application.
+System.OperationCanceledException: The operation was canceled.
+   at System.Threading.CancellationToken.ThrowOperationCanceledException()
+   at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+   at Microsoft.AspNetCore.Server.IIS.Core.HttpResponseStream.ValidateState(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.IIS.Core.HttpResponseStream.WriteAsync(ReadOnlyMemory`1 source, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserScriptMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Builder.Extensions.MapMiddleware.InvokeCore(HttpContext context, PathString matchedPath, PathString remainingPath)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+[16:18:19 INF] Current session parameters: {"Id":1,"Name":"Test Session 1","DateCreated":"2016-08-01T00:00:00.0000000+03:00","IdeaCount":1,"$type":"StormSessionViewModel"}
+[16:18:19 INF] HTTP GET / responded 200 in 267.5951 ms
+[16:18:19 INF] HTTP GET /favicon.ico responded 404 in 1.6175 ms
+[16:18:23 INF] Adding session with name: FWRFWFW
+[16:18:23 INF] HTTP POST / responded 302 in 76.7676 ms
+[16:18:23 INF] Current session parameters: {"Id":2,"Name":"FWRFWFW","DateCreated":"2023-12-18T16:18:23.8382723+02:00","IdeaCount":0,"$type":"StormSessionViewModel"}
+[16:18:23 INF] HTTP GET / responded 200 in 12.8016 ms
+[16:18:25 INF] HTTP GET /Session/Index/2 responded 200 in 41.4033 ms
+[16:18:25 INF] HTTP GET /api/ideas/forsession/2 responded 404 in 0.0193 ms
+[16:18:28 INF] HTTP POST /api/ideas/create responded 404 in 0.0218 ms
+[16:18:29 INF] Current session parameters: {"Id":2,"Name":"FWRFWFW","DateCreated":"2023-12-18T16:18:23.8382723+02:00","IdeaCount":0,"$type":"StormSessionViewModel"}
+[16:18:29 INF] HTTP GET / responded 200 in 8.4547 ms
+[16:18:31 INF] Current session parameters: {"Id":2,"Name":"FWRFWFW","DateCreated":"2023-12-18T16:18:23.8382723+02:00","IdeaCount":0,"$type":"StormSessionViewModel"}
+[16:18:31 INF] HTTP GET / responded 200 in 6.9844 ms
+[16:20:40 INF] Application started. Press Ctrl+C to shut down.
+[16:20:40 INF] Hosting environment: Development
+[16:20:40 INF] Content root path: C:\Users\Valeriia_Danilova\source\repos\Mentoring\DotNet\Task9\Logging\BrainstormSessions
+[16:20:40 INF] Current session parameters: {"Id":1,"Name":"Test Session 1","DateCreated":"2016-08-01T00:00:00.0000000+03:00","IdeaCount":1,"$type":"StormSessionViewModel"}
+[16:20:45 INF] Adding session with name: TEWTETWET
+[16:20:45 INF] Current session parameters: {"Id":2,"Name":"TEWTETWET","DateCreated":"2023-12-18T16:20:45.0910510+02:00","IdeaCount":0,"$type":"StormSessionViewModel"}
+[16:20:51 INF] Current session parameters: {"Id":2,"Name":"TEWTETWET","DateCreated":"2023-12-18T16:20:45.0910510+02:00","IdeaCount":0,"$type":"StormSessionViewModel"}
+[16:42:34 INF] Application started. Press Ctrl+C to shut down.
+[16:42:34 INF] Hosting environment: Development
+[16:42:34 INF] Content root path: C:\Users\Valeriia_Danilova\source\repos\Mentoring\DotNet\Task9\Logging\BrainstormSessions
+[16:42:35 INF] Current session parameters: {"Id":1,"Name":"Test Session 1","DateCreated":"2016-08-01T00:00:00.0000000+03:00","IdeaCount":1,"$type":"StormSessionViewModel"}
+[16:43:21 INF] Adding session with name: S2
+[16:43:21 INF] Current session parameters: {"Id":2,"Name":"S2","DateCreated":"2023-12-18T16:43:21.1454153+02:00","IdeaCount":0,"$type":"StormSessionViewModel"}
+[16:43:27 INF] Current session parameters: {"Id":2,"Name":"S2","DateCreated":"2023-12-18T16:43:21.1454153+02:00","IdeaCount":0,"$type":"StormSessionViewModel"}
