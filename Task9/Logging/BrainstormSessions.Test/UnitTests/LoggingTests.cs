@@ -6,112 +6,96 @@ using BrainstormSessions.Api;
 using BrainstormSessions.Controllers;
 using BrainstormSessions.Core.Interfaces;
 using BrainstormSessions.Core.Model;
-using log4net.Appender;
-using log4net.Config;
-using log4net.Core;
+using Serilog;
 using Moq;
 using Xunit;
+using BrainstormSessions.ClientModels;
 
 namespace BrainstormSessions.Test.UnitTests
 {
     public class LoggingTests : IDisposable
     {
-        private readonly MemoryAppender _appender;
-
+        Mock<ILogger> loggerMock;
         public LoggingTests()
         {
-            _appender = new MemoryAppender();
-            BasicConfigurator.Configure(_appender);
+            loggerMock = new Mock<ILogger>();
+            Log.Logger = loggerMock.Object;
         }
 
-        public void Dispose() => _appender.Clear();
+        public void Dispose() => Log.CloseAndFlush();
 
         [Fact]
         public async Task HomeController_Index_LogInfoMessages()
         {
-            // Arrange
+
+
             var mockRepo = new Mock<IBrainstormSessionRepository>();
-            mockRepo.Setup(repo => repo.ListAsync())
-                .ReturnsAsync(GetTestSessions());
-            var controller = new HomeController(mockRepo.Object);
-
-            // Act
+            mockRepo.Setup(repo => repo.ListAsync()).ReturnsAsync(GetTestSessions());
+            var controller = new HomeController(loggerMock.Object, mockRepo.Object);
             var result = await controller.Index();
-
-            // Assert
-            var logEntries = _appender.GetEvents();
-            Assert.True(logEntries.Any(l => l.Level == Level.Info), "Expected Info messages in the logs");
+            loggerMock.Verify(x => x.Information(It.IsAny<string>()), Times.AtLeast(1), "Expected Information messages in the logs");
         }
+
 
         [Fact]
         public async Task HomeController_IndexPost_LogWarningMessage_WhenModelStateIsInvalid()
         {
-            // Arrange
             var mockRepo = new Mock<IBrainstormSessionRepository>();
-            mockRepo.Setup(repo => repo.ListAsync())
-                .ReturnsAsync(GetTestSessions());
-            var controller = new HomeController(mockRepo.Object);
+            mockRepo.Setup(repo => repo.ListAsync()).ReturnsAsync(GetTestSessions());
+
+            var controller = new HomeController(loggerMock.Object, mockRepo.Object);
             controller.ModelState.AddModelError("SessionName", "Required");
             var newSession = new HomeController.NewSessionModel();
-
-            // Act
             var result = await controller.Index(newSession);
 
-            // Assert
-            var logEntries = _appender.GetEvents();
-            Assert.True(logEntries.Any(l => l.Level == Level.Warn), "Expected Warn messages in the logs");
+            loggerMock.Verify(x => x.Warning(It.IsAny<string>(), newSession), Times.AtLeast(1), "Expected Information messages in the logs");
         }
+
 
         [Fact]
         public async Task IdeasController_CreateActionResult_LogErrorMessage_WhenModelStateIsInvalid()
         {
-            // Arrange & Act
             var mockRepo = new Mock<IBrainstormSessionRepository>();
-            var controller = new IdeasController(mockRepo.Object);
+            var controller = new IdeasController(loggerMock.Object, mockRepo.Object);
             controller.ModelState.AddModelError("error", "some error");
-
-            // Act
             var result = await controller.CreateActionResult(model: null);
 
-            // Assert
-            var logEntries = _appender.GetEvents();
-            Assert.True(logEntries.Any(l => l.Level == Level.Error), "Expected Error messages in the logs");
+            loggerMock.Verify(x => x.Warning(It.IsAny<string>(), new NewIdeaModel()), Times.AtLeast(1), "Expected Error messages in the logs");
+
         }
 
         [Fact]
         public async Task SessionController_Index_LogDebugMessages()
         {
-            // Arrange
             int testSessionId = 1;
             var mockRepo = new Mock<IBrainstormSessionRepository>();
             mockRepo.Setup(repo => repo.GetByIdAsync(testSessionId))
                 .ReturnsAsync(GetTestSessions().FirstOrDefault(
                     s => s.Id == testSessionId));
-            var controller = new SessionController(mockRepo.Object);
-
-            // Act
+            var controller = new SessionController(loggerMock.Object, mockRepo.Object);
             var result = await controller.Index(testSessionId);
 
-            // Assert
-            var logEntries = _appender.GetEvents();
-            Assert.True(logEntries.Count(l => l.Level == Level.Debug) == 2, "Expected 2 Debug messages in the logs");
+            loggerMock.Verify(x => x.Warning(It.IsAny<string>()), Times.AtLeast(2), "Expected 2 Debug messages in the logs");
+
         }
 
         private List<BrainstormSession> GetTestSessions()
         {
-            var sessions = new List<BrainstormSession>();
-            sessions.Add(new BrainstormSession()
+            var sessions = new List<BrainstormSession>
             {
-                DateCreated = new DateTime(2016, 7, 2),
-                Id = 1,
-                Name = "Test One"
-            });
-            sessions.Add(new BrainstormSession()
-            {
-                DateCreated = new DateTime(2016, 7, 1),
-                Id = 2,
-                Name = "Test Two"
-            });
+                new BrainstormSession()
+                {
+                    DateCreated = new DateTime(2016, 7, 2),
+                    Id = 1,
+                    Name = "Test One"
+                },
+                new BrainstormSession()
+                {
+                    DateCreated = new DateTime(2016, 7, 1),
+                    Id = 2,
+                    Name = "Test Two"
+                }
+            };
             return sessions;
         }
 

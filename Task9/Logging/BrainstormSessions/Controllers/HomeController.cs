@@ -13,16 +13,16 @@ namespace BrainstormSessions.Controllers
     public class HomeController : Controller
     {
         private readonly IBrainstormSessionRepository _sessionRepository;
+        readonly ILogger _logger;
 
-        public HomeController( IBrainstormSessionRepository sessionRepository)
+        public HomeController(ILogger logger, IBrainstormSessionRepository sessionRepository)
         {
-            Log.Information("HomeController");
+            _logger = logger is not null ? logger : throw new ArgumentNullException(nameof(logger));
             _sessionRepository = sessionRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            Log.Information("Task<IActionResult> Index");
             var sessionList = await _sessionRepository.ListAsync();
 
             var model = sessionList.Select(session => new StormSessionViewModel()
@@ -32,7 +32,7 @@ namespace BrainstormSessions.Controllers
                 Name = session.Name,
                 IdeaCount = session.Ideas.Count
             });
-            Log.Information("Current session parameters: {@StormSessionViewModel}", model.First());
+            _logger.Information("Current session parameters: {@StormSessionViewModel}", model.First());
             return View(model);
         }
 
@@ -47,6 +47,7 @@ namespace BrainstormSessions.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.Warning("Warning: Bad session params: {@NewSessionModel}", model);
                 return BadRequest(ModelState);
             }
             else
@@ -57,7 +58,7 @@ namespace BrainstormSessions.Controllers
                     Name = model.SessionName
                 });
             }
-            Log.Information($"Adding session with name: {model.SessionName}");
+            _logger.Information($"Adding session with name: {model.SessionName}");
             return RedirectToAction(actionName: nameof(Index));
         }
     }

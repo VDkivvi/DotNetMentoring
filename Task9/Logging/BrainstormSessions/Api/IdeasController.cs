@@ -13,9 +13,11 @@ namespace BrainstormSessions.Api
     public class IdeasController : ControllerBase
     {
         private readonly IBrainstormSessionRepository _sessionRepository;
+        readonly ILogger _logger;
 
-        public IdeasController(IBrainstormSessionRepository sessionRepository)
+        public IdeasController(ILogger logger, IBrainstormSessionRepository sessionRepository)
         {
+            _logger = logger is not null ? logger : throw new ArgumentNullException(nameof(logger));
             _sessionRepository = sessionRepository;
         }
 
@@ -26,6 +28,7 @@ namespace BrainstormSessions.Api
             var session = await _sessionRepository.GetByIdAsync(sessionId);
             if (session == null)
             {
+                _logger.Error("Unexisting session. {sessionId}", sessionId);
                 return NotFound(sessionId);
             }
 
@@ -45,12 +48,14 @@ namespace BrainstormSessions.Api
         {
             if (!ModelState.IsValid)
             {
+                _logger.Warning("Bad request: {@NewIdeaModel}", model);
                 return BadRequest(ModelState);
             }
 
             var session = await _sessionRepository.GetByIdAsync(model.SessionId);
             if (session == null)
             {
+                _logger.Error("Unexisting session. {model.SessionId}", model.SessionId);
                 return NotFound(model.SessionId);
             }
 
@@ -78,6 +83,7 @@ namespace BrainstormSessions.Api
 
             if (session == null)
             {
+                _logger.Error("Unexisting session. {sessionId}", sessionId);
                 return NotFound(sessionId);
             }
 
@@ -102,6 +108,7 @@ namespace BrainstormSessions.Api
         {
             if (!ModelState.IsValid)
             {
+                _logger.Warning("Bad request: {@NewIdeaModel}", model);
                 return BadRequest(ModelState);
             }
 
@@ -109,6 +116,7 @@ namespace BrainstormSessions.Api
 
             if (session == null)
             {
+                _logger.Error("Unexisting session. {model.SessionId}", model.SessionId);
                 return NotFound(model.SessionId);
             }
 
