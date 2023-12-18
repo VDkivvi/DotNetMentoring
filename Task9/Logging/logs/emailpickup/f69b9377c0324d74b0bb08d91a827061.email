@@ -1,0 +1,15 @@
+To: support@example.com
+From: app@example.com
+Subject: Logs you didnt expect
+Date: Mon, 18 Dec 2023 18:23:11 GMT
+
+-----------
+
+Level: Information
+Application started. Press Ctrl+C to shut down.
+
+Properties:
+SourceContext: "Microsoft.Hosting.Lifetime"
+
+No exception was logged
+
